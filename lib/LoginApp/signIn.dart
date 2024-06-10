@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/LoginApp/registrationScreen.dart';
 import 'package:todo_list_app/TodoApp/listMain.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -39,9 +41,74 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
     });
   }
 
+  Future<void> _loginUser() async {
+    final String phone = _phoneController.text;
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? storedPhone = prefs.getString('phone');
+    final String? storedEmail = prefs.getString('email');
+    final String? storedPassword = prefs.getString('password');
+
+    // ignore: use_build_context_synchronously
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 3), () {
+          Navigator.of(context).pop(true);
+          if ((_selectedLoginMethod == 'PHONE' &&
+                  phone == storedPhone &&
+                  password == storedPassword) ||
+              (_selectedLoginMethod == 'EMAIL' &&
+                  email == storedEmail &&
+                  password == storedPassword)) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TodoListApp(),
+              ),
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Erreur de connexion'),
+                  content: const Text(
+                      'Les informations de connexion sont incorrectes.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        });
+        return const AlertDialog(
+          title: Text('Connexion en cours'),
+          content: Row(
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(width: 20.0),
+              Expanded(child: Text('Veuillez patienter...')),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       // appBar: AppBar( title: Text('Connexion'),),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -49,12 +116,12 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.only(top: 20),
               child: Center(
                 child: Image.asset(
-                  "assets/images/login_image.png",
+                  "assets/images/login.jpg",
                   width: MediaQuery.of(context).size.width *
-                      0.7, // Adjust width as needed
+                      0.5, // Adjust width as needed
                   height: MediaQuery.of(context).size.height *
                       0.2, // Adjust height as needed
                 ),
@@ -128,19 +195,21 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
             const SizedBox(height: 20.0),
             SizedBox(
                 width: double.infinity,
+                height: 40,
                 child: ElevatedButton(
-                    onPressed: () {
-                      // naviguer vers l'acceuil de TodoAPP
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TodoListApp()),
-                      );
-                    },
+                    onPressed: _loginUser,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 90, 15, 110),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              5), // Bordures rectangulaires
+                        )),
                     child: const Text(
                       'Se connecter',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.white),
                     ))),
             const SizedBox(height: 20.0),
             Center(
@@ -155,7 +224,12 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
             Center(
               child: TextButton(
                 onPressed: () {
-                  // TODO: Implémenter la logique de création de compte
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegistrationScreen(),
+                    ),
+                  );
                 },
                 child: const Text('Créer un nouveau compte'),
               ),

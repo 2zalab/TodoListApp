@@ -10,6 +10,7 @@ class TodoListApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Todo List Home Page'),
     );
   }
