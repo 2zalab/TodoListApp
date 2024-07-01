@@ -30,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<bool> _isChecked = [];
   final List<String> _deletedItems = [];
   final TextEditingController _controller = TextEditingController();
+  
 
   void _addItem(String item) {
     setState(() {

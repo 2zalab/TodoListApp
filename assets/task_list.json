@@ -1,7 +1,7 @@
 {
     "items": [
       {"title": "Aller au Sport", "checked": false},
-      {"title": "Aller à l'egelise", "checked": false},
+      {"title": "Aller à l'eglise", "checked": false},
       {"title": "Lire un livre", "checked": false},
       {"title": "Coder", "checked": false},
       {"title": "Rendre Visite", "checked": false},

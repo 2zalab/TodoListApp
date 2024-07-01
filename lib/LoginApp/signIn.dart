@@ -3,6 +3,8 @@ import 'package:todo_list_app/LoginApp/registrationScreen.dart';
 import 'package:todo_list_app/TodoApp/listMain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../TodoApp/jsonMain.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -67,7 +69,7 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const TodoListApp(),
+                builder: (context) => const TodoListAppJson(),
               ),
             );
           } else {

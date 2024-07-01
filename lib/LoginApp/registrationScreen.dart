@@ -92,7 +92,9 @@ class _RegistrationScreenHomePageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text('Inscription'),),
+      appBar: AppBar(
+        title: Text('Inscription'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
