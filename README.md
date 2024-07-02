@@ -24,7 +24,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés :
 1. Clonez le dépôt :
 
 ```sh
-git clone https://github.com/votre-nom-utilisateur/votre-repo.git
+git clone https://github.com/touza-isaac/TodoListApp.git
 ```
 
 2. Naviguez dans le répertoire du projet :
