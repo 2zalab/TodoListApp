@@ -99,6 +99,6 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ## Contact
 
-Votre Nom - [@touzaisaac](https://x.com/touzaisaac) - isaac_touza@outlook
+[@touzaisaac](https://x.com/touzaisaac) - isaac_touza@outlook
 
 Lien du projet: [https://github.com/touza-isaac/TodoListApp](https://github.com/Touza-Isaac/TodoListApp.git)
