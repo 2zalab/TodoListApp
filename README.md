@@ -24,7 +24,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés :
 1. Clonez le dépôt :
 
 ```sh
-git clone https://github.com/touza-isaac/TodoListApp.git
+git clone [https://github.com/touza-isaac/TodoListApp.git](https://github.com/Touza-Isaac/TodoListApp.git)
 ```
 
 2. Naviguez dans le répertoire du projet :
@@ -99,6 +99,6 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ## Contact
 
-Votre Nom - [@touzaisaac](https://twitter.com/touzaisaac) - votre-email@example.com
+Votre Nom - [@touzaisaac](https://x.com/touzaisaac) - isaac_touza@outlook
 
-Lien du projet: [https://github.com/touza-isaac/TodoListApp](https://github.com/touza-isaac/TodoListApp)
+Lien du projet: [https://github.com/touza-isaac/TodoListApp](https://github.com/Touza-Isaac/TodoListApp.git)
