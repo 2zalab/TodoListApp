@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/LoginApp/registrationScreen.dart';
+import 'package:todo_list_app/Provider/mainProvider.dart';
 import 'package:todo_list_app/TodoApp/listMain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,7 +70,7 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const TodoListAppJson(),
+                builder: (context) => TodoListAppMultiProvider(),
               ),
             );
           } else {
