@@ -30,6 +30,7 @@ class MyHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final todoList = watch(todoListProvider);
+    final textController = watch(textEditingControllerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +39,9 @@ class MyHomePage extends ConsumerWidget {
           IconButton(
             icon: Icon(Icons.filter_list),
             onPressed: () {
-              context.read(todoListProvider.notifier).showFilterOptions(context);
+              context
+                  .read(todoListProvider.notifier)
+                  .showFilterOptions(context);
             },
           ),
           PopupMenuButton<String>(
@@ -69,9 +72,11 @@ class MyHomePage extends ConsumerWidget {
                 return ListTile(
                   title: Text(todoList.filteredItems[index]),
                   trailing: Checkbox(
-                    value: todoList.isChecked[todoList.items.indexOf(todoList.filteredItems[index])],
+                    value: todoList.isChecked[
+                        todoList.items.indexOf(todoList.filteredItems[index])],
                     onChanged: (bool? value) {
-                      context.read(todoListProvider.notifier).toggleItemChecked(todoList.filteredItems[index], value!);
+                      context.read(todoListProvider.notifier).toggleItemChecked(
+                          todoList.filteredItems[index], value!);
                     },
                   ),
                 );
@@ -81,13 +86,16 @@ class MyHomePage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 15, 15, 20),
             child: TextField(
-              controller: context.read(todoListProvider.notifier).controller,
+              controller: textController,
               decoration: InputDecoration(
                 labelText: 'Enter a new Task',
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
-                    context.read(todoListProvider.notifier).addItem(context.read(todoListProvider.notifier).controller.text);
+                    context
+                        .read(todoListProvider.notifier)
+                        .addItem(textController.text);
+                    textController.clear();
                   },
                 ),
               ),
@@ -118,7 +126,7 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
               ListTile(
                 title: Text('All'),
                 onTap: () {
-                  state.filter = 'All';
+                  state = state.copy()..filter = 'All';
                   applyFilter();
                   Navigator.of(context).pop();
                 },
@@ -126,7 +134,7 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
               ListTile(
                 title: Text('Finish'),
                 onTap: () {
-                  state.filter = 'Finish';
+                  state = state.copy()..filter = 'Finish';
                   applyFilter();
                   Navigator.of(context).pop();
                 },
@@ -134,7 +142,7 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
               ListTile(
                 title: Text('Not Finish'),
                 onTap: () {
-                  state.filter = 'Not Finish';
+                  state = state.copy()..filter = 'Not Finish';
                   applyFilter();
                   Navigator.of(context).pop();
                 },
@@ -148,13 +156,18 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
 
   void applyFilter() {
     if (state.filter == 'All') {
-      state.filteredItems = List.from(state.items);
+      state = state.copy()..filteredItems = List.from(state.items);
     } else if (state.filter == 'Finish') {
-      state.filteredItems = state.items.where((item) => state.isChecked[state.items.indexOf(item)]).toList();
+      state = state.copy()
+        ..filteredItems = state.items
+            .where((item) => state.isChecked[state.items.indexOf(item)])
+            .toList();
     } else if (state.filter == 'Not Finish') {
-      state.filteredItems = state.items.where((item) => !state.isChecked[state.items.indexOf(item)]).toList();
+      state = state.copy()
+        ..filteredItems = state.items
+            .where((item) => !state.isChecked[state.items.indexOf(item)])
+            .toList();
     }
-    state = state.copy();
   }
 
   Future<void> loadItems() async {
@@ -162,25 +175,25 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
     if (await file.exists()) {
       final contents = await file.readAsString();
       final data = json.decode(contents);
-      state.items.clear();
-      state.isChecked.clear();
+      state = state.copy()
+        ..items.clear()
+        ..isChecked.clear();
       for (var item in data['items']) {
         state.items.add(item['title']);
         state.isChecked.add(item['checked']);
       }
     } else {
-      // Load the initial data from the asset file if the local file does not exist
       final contents = await rootBundle.loadString('assets/task_list.json');
       final data = json.decode(contents);
-      state.items.clear();
-      state.isChecked.clear();
+      state = state.copy()
+        ..items.clear()
+        ..isChecked.clear();
       for (var item in data['items']) {
         state.items.add(item['title']);
         state.isChecked.add(item['checked']);
       }
       saveItems();
     }
-    state = state.copy();
   }
 
   Future<void> saveItems() async {
@@ -205,17 +218,17 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
 
   void addItem(String item) {
     if (item.isNotEmpty) {
-      state.items.add(item);
-      state.isChecked.add(false);
-      state.controller.clear();
+      state = state.copy()
+        ..items.add(item)
+        ..isChecked.add(false);
       applyFilter();
       saveItems();
     }
   }
 
   void deleteCheckedItems() {
-    List<String> newItems = [];
-    List<bool> newIsChecked = [];
+    final newItems = <String>[];
+    final newIsChecked = <bool>[];
     for (int i = 0; i < state.items.length; i++) {
       if (!state.isChecked[i]) {
         newItems.add(state.items[i]);
@@ -224,10 +237,11 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
         state.deletedItems.add(state.items[i]);
       }
     }
-    state.items.clear();
-    state.items.addAll(newItems);
-    state.isChecked.clear();
-    state.isChecked.addAll(newIsChecked);
+    state = state.copy()
+      ..items.clear()
+      ..items.addAll(newItems)
+      ..isChecked.clear()
+      ..isChecked.addAll(newIsChecked);
     applyFilter();
     saveItems();
   }
@@ -237,7 +251,7 @@ class TodoListNotifier extends StateNotifier<TodoListModel> {
       state.items.add(item);
       state.isChecked.add(false);
     }
-    state.deletedItems.clear();
+    state = state.copy()..deletedItems.clear();
     applyFilter();
     saveItems();
   }
@@ -253,7 +267,6 @@ class TodoListModel {
   List<String> items = [];
   List<bool> isChecked = [];
   List<String> deletedItems = [];
-  final TextEditingController controller = TextEditingController();
   List<String> filteredItems = [];
   String filter = 'All';
 
@@ -262,12 +275,15 @@ class TodoListModel {
       ..items = List.from(items)
       ..isChecked = List.from(isChecked)
       ..deletedItems = List.from(deletedItems)
-      ..controller.text = controller.text
       ..filteredItems = List.from(filteredItems)
       ..filter = filter;
   }
 }
 
-final todoListProvider = StateNotifierProvider<TodoListNotifier, TodoListModel>((ref) {
+final todoListProvider =
+    StateNotifierProvider<TodoListNotifier, TodoListModel>((ref) {
   return TodoListNotifier();
+});
+final textEditingControllerProvider = Provider<TextEditingController>((ref) {
+  return TextEditingController();
 });
