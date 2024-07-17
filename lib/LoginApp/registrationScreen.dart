@@ -22,7 +22,6 @@ class RegistrationScreenHomePage extends StatefulWidget {
   const RegistrationScreenHomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _RegistrationScreenHomePageState createState() =>
       _RegistrationScreenHomePageState();
 }
@@ -93,7 +92,7 @@ class _RegistrationScreenHomePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inscription'),
+        title: const Text('Inscription'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -114,10 +113,12 @@ class _RegistrationScreenHomePageState
             ),
             const Text(
               'Inscription',
+              key: Key('registrationTitle'),
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20.0),
             TextFormField(
+              key: const Key('nameField'),
               controller: _nameController,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.person),
@@ -127,6 +128,7 @@ class _RegistrationScreenHomePageState
             ),
             const SizedBox(height: 20.0),
             TextFormField(
+              key: const Key('emailField'),
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
@@ -137,6 +139,7 @@ class _RegistrationScreenHomePageState
             ),
             const SizedBox(height: 20.0),
             TextFormField(
+              key: const Key('phoneField'),
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
@@ -147,6 +150,7 @@ class _RegistrationScreenHomePageState
             ),
             const SizedBox(height: 20.0),
             TextFormField(
+              key: const Key('passwordField'),
               controller: _passwordController,
               obscureText: _obscureText,
               decoration: InputDecoration(
@@ -166,6 +170,7 @@ class _RegistrationScreenHomePageState
               width: double.infinity,
               height: 40,
               child: ElevatedButton(
+                key: const Key('registerButton'),
                 onPressed: _registerUser,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 90, 15, 110),
@@ -187,6 +192,7 @@ class _RegistrationScreenHomePageState
             const SizedBox(height: 20.0),
             Center(
               child: TextButton(
+                key: const Key('loginButton'),
                 onPressed: () {
                   Navigator.push(
                     context,

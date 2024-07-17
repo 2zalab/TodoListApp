@@ -26,7 +26,6 @@ class LoginScreenHomePage extends StatefulWidget {
   const LoginScreenHomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenHomePageState createState() => _LoginScreenHomePageState();
 }
 
@@ -54,7 +53,6 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
     final String? storedEmail = prefs.getString('email');
     final String? storedPassword = prefs.getString('password');
 
-    // ignore: use_build_context_synchronously
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -112,7 +110,6 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar( title: Text('Connexion'),),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -123,10 +120,8 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
               child: Center(
                 child: Image.asset(
                   "assets/images/login.jpg",
-                  width: MediaQuery.of(context).size.width *
-                      0.5, // Adjust width as needed
-                  height: MediaQuery.of(context).size.height *
-                      0.2, // Adjust height as needed
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
               ),
             ),
@@ -163,30 +158,33 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
             const SizedBox(height: 20.0),
             if (_selectedLoginMethod == 'PHONE')
               TextFormField(
+                key: const Key('phoneField'),
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.phone),
                   labelText: 'Téléphone',
-                  border: OutlineInputBorder(), // Ajouter une bordure
+                  border: OutlineInputBorder(),
                 ),
               ),
             if (_selectedLoginMethod == 'EMAIL')
               TextFormField(
+                key: const Key('emailField'),
                 controller: _emailController,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.mail),
                   labelText: 'E-mail',
-                  border: OutlineInputBorder(), // Ajouter une bordure
+                  border: OutlineInputBorder(),
                 ),
               ),
             const SizedBox(height: 20.0),
             TextFormField(
+              key: const Key('passwordField'),
               controller: _passwordController,
               obscureText: _obscureText,
               decoration: InputDecoration(
                 labelText: 'Mot de passe',
-                border: const OutlineInputBorder(), // Ajouter une bordure
+                border: const OutlineInputBorder(),
                 prefixIcon: const Icon(Icons.key_sharp),
                 suffixIcon: IconButton(
                     icon: Icon(
@@ -202,10 +200,9 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
                 child: ElevatedButton(
                     onPressed: _loginUser,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 90, 15, 110),
+                        backgroundColor: const Color.fromARGB(255, 90, 15, 110),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              5), // Bordures rectangulaires
+                          borderRadius: BorderRadius.circular(5),
                         )),
                     child: const Text(
                       'Se connecter',
@@ -217,9 +214,7 @@ class _LoginScreenHomePageState extends State<LoginScreenHomePage> {
             const SizedBox(height: 20.0),
             Center(
               child: TextButton(
-                onPressed: () {
-                  // TODO: Implémenter la logique de mot de passe oublié
-                },
+                onPressed: () {},
                 child: const Text('Mot de passe oublié ?'),
               ),
             ),
